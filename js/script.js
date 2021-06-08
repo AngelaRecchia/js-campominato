@@ -8,10 +8,23 @@ BONUS: (da fare solo se funziona tutto il resto) all’inizio il software richie
 var numeri = [];
 var max = 100;
 var min = 1
+var round = 0;
 
+var numeriUtente = [];
+
+/* popolazione array con numeri casuali non ripetuti da min a max */
 while (numeri.length < 16){
     var nRand = Math.floor(Math.random()*(max - min + 1) + 1);
     if (!numeri.includes(nRand)) numeri.push(nRand);
 }
 
-console.log(numeri);
+ while(round < 100 - 16 ) {
+    do var numUtente = parseInt(prompt("Inserisci un numero da 1 a 100"));
+    while (numUtente < 1 || numUtente > 100 || Number.isNaN(numUtente) || numeriUtente.includes(numUtente));
+    numeriUtente.push(numUtente);
+    round++;
+ }
+
+
+console.log(round);
+console.log(numeriUtente);
