@@ -5,28 +5,37 @@ Al termine della partita il software deve comunicare il punteggio, cioè il nume
 BONUS: (da fare solo se funziona tutto il resto) all’inizio il software richiede anche una difficoltà all’utente che cambia il range di numeri casuali: con difficoltà 0 => tra 1 e 100 con difficoltà 1 => tra 1 e 80 con difficoltà 2 => tra 1 e 50 */
 
 /* dichiarazione variabili */
-var numeri = [];
+
 var max = 100;
 var min = 1
+var numeri = createArray();
 var round = 0;
 var numUtente = 0;
-var numeriUtente = [];
+var numeriUtente = askNumbers();
 
 /* popolazione array con numeri casuali non ripetuti da min a max */
-while (numeri.length < 16){
-    var nRand = Math.floor(Math.random()*(max - min + 1) + 1);
-    if (!numeri.includes(nRand)) numeri.push(nRand);
+function createArray(){
+    var array = [];
+    while (array.length < 16) {
+        var nRand = Math.floor(Math.random()*(max - min + 1) + 1);
+        if (!array.includes(nRand)) array.push(nRand);
+    }
+    return array;
 }
 
 /* richiesta numeri a utente */
-while(round < 100 - 16 && !numeri.includes(numUtente)) {
-    var frase = "Inserisci un numero da 1 a 100";
-    while (numUtente < 1 || numUtente > 100 || Number.isNaN(numUtente) || numeriUtente.includes(numUtente)){
-        numUtente = parseInt(prompt(frase));
-        frase = "Numero non valido: inserisci un numero da 1 a 100";
+function askNumbers(){
+    var array = [];
+    while(round < 100 - 16 && !numeri.includes(numUtente)) {
+        var frase = "Inserisci un numero da 1 a 100";
+        while (numUtente < 1 || numUtente > 100 || Number.isNaN(numUtente) || array.includes(numUtente)){
+            numUtente = parseInt(prompt(frase));
+            frase = "Numero non valido: inserisci un numero da 1 a 100";
+        }
+        array.push(numUtente);
+        round++;
     }
-    numeriUtente.push(numUtente);
-    round++;
- }
+    return array;
+}
 
 document.getElementById("text").innerHTML = "Il tuo punteggio è: " + round + "<br>I numeri minati sono: " + numeri + "<br>Hai colpito il numero: " + numUtente + "<br>I numeri da te inseriti sono: " + numeriUtente;
