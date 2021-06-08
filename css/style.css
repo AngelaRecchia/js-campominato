@@ -1,0 +1,50 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: game;
+    src: url(game_power/game_power.ttf);
+}
+
+body {
+    background: #000;
+    color: white;
+}
+
+#difficolta {
+    font-family: game;
+    height: 100vh;
+}
+.lvl {
+    margin: 30px;
+    font-size: 70px;
+    display: inline-block;
+}
+
+#zero:hover {
+    color: rgb(122, 190, 33);
+}
+
+#uno:hover {
+    color: rgb(255, 208, 0);
+}
+
+#due:hover {
+    color: rgb(223, 55, 4);
+}
+
+#difficolta h1 {
+    animation: pulse .5s infinite ease alternate;
+}
+
+@keyframes pulse {
+    from { 
+        transform: scale(1.2);
+    }
+    to { 
+        transform: scale(1.3);
+    }
+}

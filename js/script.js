@@ -31,16 +31,15 @@ function createArray(){
 /* richiesta numeri a utente */
 function askNumbers(){
     var array = [];
-    while(round < max - 16 && !numeri.includes(numUtente)) {
+    while(array.length < max - 16 && !numeri.includes(numUtente)) {
         var frase = "Inserisci un numero da 1 a " + max;
         while (numUtente < min || numUtente > max || Number.isNaN(numUtente) || array.includes(numUtente)){
             numUtente = parseInt(prompt(frase));
             frase = "Numero non valido: inserisci un numero da 1 a " + max;
         }
         array.push(numUtente);
-        round++;
     }
     return array;
 }
 
-document.getElementById("text").innerHTML = "Il tuo punteggio è: " + round + "<br>I numeri minati sono: " + numeri + "<br>Hai colpito il numero: " + numUtente + "<br>I numeri da te inseriti sono: " + numeriUtente;
+document.getElementById("text").innerHTML = "Il tuo punteggio è: " + numeriUtente.length + "<br>I numeri minati sono: " + numeri + "<br>Hai colpito il numero: " + numUtente + "<br>I numeri da te inseriti sono: " + numeriUtente;
