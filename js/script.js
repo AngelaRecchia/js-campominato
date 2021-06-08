@@ -9,7 +9,7 @@ var numeri = [];
 var max = 100;
 var min = 1
 var round = 0;
-
+var numUtente = 0;
 var numeriUtente = [];
 
 /* popolazione array con numeri casuali non ripetuti da min a max */
@@ -18,13 +18,15 @@ while (numeri.length < 16){
     if (!numeri.includes(nRand)) numeri.push(nRand);
 }
 
- while(round < 100 - 16 ) {
-    do var numUtente = parseInt(prompt("Inserisci un numero da 1 a 100"));
-    while (numUtente < 1 || numUtente > 100 || Number.isNaN(numUtente) || numeriUtente.includes(numUtente));
+/* richiesta numeri a utente */
+while(round < 100 - 16 && !numeri.includes(numUtente)) {
+    var frase = "Inserisci un numero da 1 a 100";
+    while (numUtente < 1 || numUtente > 100 || Number.isNaN(numUtente) || numeriUtente.includes(numUtente)){
+        numUtente = parseInt(prompt(frase));
+        frase = "Numero non valido: inserisci un numero da 1 a 100";
+    }
     numeriUtente.push(numUtente);
     round++;
  }
 
-
-console.log(round);
-console.log(numeriUtente);
+document.getElementById("text").innerHTML = "Il tuo punteggio è: " + round + "<br>I numeri minati sono: " + numeri + "<br>Hai colpito il numero: " + numUtente + "<br>I numeri da te inseriti sono: " + numeriUtente;
