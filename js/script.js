@@ -23,77 +23,56 @@ function max100() {
 
 function max80() {
     max = 80;
+    hide();
     game();
 }
 
 function max50() {
     max = 50;
+    hide();
     game();
 }
 
+/* nasconde scelta difficoltà, mostra inserimento numero */
 function hide(){
     document.getElementById("diff").className = "hidden";
-    document.getElementById("mains").className = "";
+    document.getElementById("cont").className = "d-flex justify-content-between align-items-center";
+    for (var i = min; i <= max; i++) {
+        document.getElementById("campo").innerHTML += "<div id=n" + i + " \" class=\"square\"></div>";
+    }
 }
 
 function game(){
 
     var numeri = createArray();
-    var numUtente = 0;
     var numeriUtente = [];
 
-    console.log(numeri);
     var frase = "Inserisci un numero da 1 a " + max;
-    document.getElementById("text").innerHTML = frase;
-
-    var keepGoing = true;
+    document.getElementById("text-num").innerHTML = frase;
 
     var pulsante = document.getElementById("addN");
     pulsante.addEventListener("click", askNumbersWP);
     
-    
-        /* document.getElementById("addN").removeEventListener("click", askNumbersWP);
-        document.getElementById("mains").className = "hidden";
-             document.getElementById("text").innerHTML = "Il tuo punteggio è: " + numeriUtente.length + "<br>I numeri minati sono: " + numeri + "<br>Hai colpito il numero: " + numUtente + "<br>I numeri da te inseriti sono: " + numeriUtente; */
-    
-    
     function askNumbersWP() {
+        
         var num = parseInt(document.getElementById("numb").value);
         if (numeriUtente.length < max - 16 && !numeri.includes(num)) {
-            document.getElementById("text").innerHTML = frase;
-            
+            document.getElementById("text-num").innerHTML = frase;
             if (!(num < min || num > max || Number.isNaN(num) || numeriUtente.includes(num))) {
                 numeriUtente.push(num);
-            } else document.getElementById("text").innerHTML = "Numero non valido o inserito in precedenza:inserisci un numero da 1 a " + max;
-            console.log(numeriUtente);
-        } else {
-            keepGoing = false;
-            /* document.getElementById("addN").removeEventListener("click", askNumbersWP); */
-            document.getElementById("mains").className = "hidden";
-             document.getElementById("text").innerHTML = "Il tuo punteggio è: " + numeriUtente.length + "<br>I numeri minati sono: " + numeri + "<br>Hai colpito il numero: " + numUtente + "<br>I numeri da te inseriti sono: " + numeriUtente;
-        }
-    }
-
-        /* if (keepGoing) {
-            if (numeriUtente.length < max - 16 && !numeri.includes(numUtente)) {
-                document.getElementById("text").innerHTML = frase;
-                var num = parseInt(document.getElementById("numb").value);
-                if (!(num < min || num > max || Number.isNaN(num) || numeriUtente.includes(num))) {
-                    numeriUtente.push(num);
-                } else document.getElementById("text").innerHTML = "Numero non valido o inserito in precedenza: inserisci un numero da 1 a " + max;
-                console.log(numeriUtente);
+                document.getElementById("n" + num).className += " green";
+                document.getElementById("numb").value = "";
             } else {
-                keepGoing = false;
-                console.log(keepGoing);
+                document.getElementById("text-num").innerHTML = "Numero non valido o inserito in precedenza:inserisci un numero da 1 a " + max;
+                document.getElementById("numb").value = "";
             }
-        } else { */
-        
+        } else {
+            numeriUtente.push(num);
+            document.getElementById("mains").className = "hidden";
+            document.getElementById("text").innerHTML = "Il tuo punteggio è: " + numeriUtente.length + "<br>I numeri minati sono: " + numeri + "<br>Hai colpito il numero: " + num + "<br>I numeri da te inseriti sono: " + numeriUtente;
+        }
 
-
-    
-
-
-    /* document.getElementById("text").innerHTML = "Il tuo punteggio è: " + numeriUtente.length + "<br>I numeri minati sono: " + numeri + "<br>Hai colpito il numero: " + numUtente + "<br>I numeri da te inseriti sono: " + numeriUtente; */
+    }
 
     /* popolazione array con numeri casuali non ripetuti da min a max */
     function createArray(){
@@ -105,7 +84,7 @@ function game(){
         return array;
     }
 
-    /* richiesta numeri a utente */
+    /* richiesta numeri a utente con prompt*/
     function askNumbers(){
         var array = [];
         while(array.length < max - 16 && !numeri.includes(numUtente)) {
@@ -117,18 +96,6 @@ function game(){
             array.push(numUtente);
         }
         return array;
-    }
-    
-
-    /* CASINOOOOO richiesta numeri a utente senza prompt*/
-    /* function askN(arrayPC) {
-        var array = [];
-        while(array.length < max - 16 && !arrayPC.includes(numUtente)) {
-            document.getElementById("addN").addEventListener("click", getN);
-            if (getN(array) != false) array.push(numUtente);
-        }
-        return array;
-    } */
-    
+    }    
     
 }
