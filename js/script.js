@@ -37,9 +37,23 @@ function hide(){
 }
 
 function game(){
+
     var numeri = createArray();
     var numUtente = 0;
-    var numeriUtente = askNumbers();
+    var numeriUtente = [];
+
+    document.getElementById("addN").addEventListener("click", askNumbersWP);
+    function askNumbersWP() {
+        document.getElementById("text").innerHTML = "Inserisci un numero da 1 a " + max;
+        var num = parseInt(document.getElementById("numb").value);
+        if (correctN(num, numeriUtente)) numeriUtente.push(num);
+        else document.getElementById("text").innerHTML = "Numero non valido o inserito in precedenza: inserisci un numero da 1 a " + max;
+        console.log(numeriUtente);
+    }
+
+    
+
+
     document.getElementById("text").innerHTML = "Il tuo punteggio è: " + numeriUtente.length + "<br>I numeri minati sono: " + numeri + "<br>Hai colpito il numero: " + numUtente + "<br>I numeri da te inseriti sono: " + numeriUtente;
 
     /* popolazione array con numeri casuali non ripetuti da min a max */
@@ -65,8 +79,6 @@ function game(){
         }
         return array;
     }
-
-    
     
 
     /* CASINOOOOO richiesta numeri a utente senza prompt*/
@@ -77,16 +89,10 @@ function game(){
             if (getN(array) != false) array.push(numUtente);
         }
         return array;
-    }
-
-    function getN(numeriUtente) {
-        var num = document.getElementById("num").value;
-        if (correctN(num, numeriUtente)) return num;
-        else return false;
-    }
+    } */
     
     function correctN(num, arr){
         return !(num < min || num > max || Number.isNaN(num) || arr.includes(num));
         
-    } */
+    } 
 }
