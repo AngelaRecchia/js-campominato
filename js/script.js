@@ -5,6 +5,7 @@ Al termine della partita il software deve comunicare il punteggio, cioè il nume
 BONUS: (da fare solo se funziona tutto il resto) all’inizio il software richiede anche una difficoltà all’utente che cambia il range di numeri casuali: con difficoltà 0 => tra 1 e 100 con difficoltà 1 => tra 1 e 80 con difficoltà 2 => tra 1 e 50 */
 
 /* scelta difficoltà */
+
 var min = 1
 var max;
 
@@ -36,10 +37,13 @@ function max50() {
 /* nasconde scelta difficoltà, mostra inserimento numero */
 function hide(){
     document.getElementById("diff").className = "hidden";
-    document.getElementById("cont").className = "d-flex justify-content-between align-items-center";
+    document.getElementById("mains").className = "d-flex flex-column align-items-center justify-content-center text-center";
+    document.getElementById("campo").className = "inplace";
     for (var i = min; i <= max; i++) {
-        document.getElementById("campo").innerHTML += "<div id=n" + i + " \" class=\"square\"></div>";
+        document.getElementById("campo").innerHTML += "<div id=n" + i + " \" class=\"square d-flex align-items-center justify-content-center\"></div>";
     }
+
+    
 }
 
 function game(){
@@ -61,18 +65,36 @@ function game(){
             if (!(num < min || num > max || Number.isNaN(num) || numeriUtente.includes(num))) {
                 numeriUtente.push(num);
                 document.getElementById("n" + num).className += " green";
+                document.getElementById("n" + num).innerHTML = num;
                 document.getElementById("numb").value = "";
+                document.getElementById("text").innerHTML = "Punteggio: " + numeriUtente.length;
             } else {
-                document.getElementById("text-num").innerHTML = "Numero non valido o inserito in precedenza:inserisci un numero da 1 a " + max;
+                document.getElementById("text-num").innerHTML = "Numero non valido o inserito in precedenza <br>inserisci un numero da 1 a " + max;
                 document.getElementById("numb").value = "";
             }
         } else {
             numeriUtente.push(num);
-            document.getElementById("mains").className = "hidden";
-            document.getElementById("text").innerHTML = "Il tuo punteggio è: " + numeriUtente.length + "<br>I numeri minati sono: " + numeri + "<br>Hai colpito il numero: " + num + "<br>I numeri da te inseriti sono: " + numeriUtente;
+            document.getElementById("addN").removeEventListener("click", askNumbersWP, false);
+            document.getElementById("n" + num).className += " red";
+            document.getElementById("n" + num).innerHTML = num;
+            document.getElementById("numb").className = "hidden";
+            document.getElementById("text").className = "hidden";
+            document.getElementById("text-num").innerHTML = "Game Over <br><br>Punteggio: " + (numeriUtente.length - 1);
+            document.getElementById("addN").innerHTML = "Scopri mine";
+            document.getElementById("addN").addEventListener("click", function() {
+                for (var i = 0; i < numeri.length; i++){
+                    document.getElementById("n" + numeri[i]).className += " red";
+                    document.getElementById("n" + numeri[i]).innerHTML = numeri[i];
+                }
+                document.getElementById("addN").innerHTML = "Riprova";
+                document.getElementById("addN").addEventListener("click", function(){
+                    window.location.reload();
+                });
+            });
         }
 
-    }
+    }   
+
 
     /* popolazione array con numeri casuali non ripetuti da min a max */
     function createArray(){
@@ -99,3 +121,4 @@ function game(){
     }    
     
 }
+
