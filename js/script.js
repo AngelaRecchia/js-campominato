@@ -5,41 +5,88 @@ Al termine della partita il software deve comunicare il punteggio, cioè il nume
 BONUS: (da fare solo se funziona tutto il resto) all’inizio il software richiede anche una difficoltà all’utente che cambia il range di numeri casuali: con difficoltà 0 => tra 1 e 100 con difficoltà 1 => tra 1 e 80 con difficoltà 2 => tra 1 e 50 */
 
 /* scelta difficoltà */
-var max = 100;
 var min = 1
-do var diff = parseInt(prompt("Scegli il livello di difficoltà: 0, 1 o 2"));
-while (diff != 0 && diff != 1 && diff != 2);
-if (diff == 1) max = 80; 
-else if (diff == 2) max = 50;
+var max;
 
-/* dichiarazione variabili */
-var numeri = createArray();
-var round = 0;
-var numUtente = 0;
-var numeriUtente = askNumbers();
 
-/* popolazione array con numeri casuali non ripetuti da min a max */
-function createArray(){
-    var array = [];
-    while (array.length < 16) {
-        var nRand = Math.floor(Math.random()*(max - min + 1) + 1);
-        if (!array.includes(nRand)) array.push(nRand);
-    }
-    return array;
+document.getElementById("zero").addEventListener("click", max100);
+document.getElementById("uno").addEventListener("click", max80);
+document.getElementById("due").addEventListener("click", max50);
+
+
+
+function max100() {
+    max = 100;
+    hide();
+    game();
 }
 
-/* richiesta numeri a utente */
-function askNumbers(){
-    var array = [];
-    while(array.length < max - 16 && !numeri.includes(numUtente)) {
-        var frase = "Inserisci un numero da 1 a " + max;
-        while (numUtente < min || numUtente > max || Number.isNaN(numUtente) || array.includes(numUtente)){
-            numUtente = parseInt(prompt(frase));
-            frase = "Numero non valido: inserisci un numero da 1 a " + max;
+function max80() {
+    max = 80;
+    game();
+}
+
+function max50() {
+    max = 50;
+    game();
+}
+
+function hide(){
+    document.getElementById("diff").className = "hidden";
+    document.getElementById("mains").className = "";
+}
+
+function game(){
+    var numeri = createArray();
+    var numUtente = 0;
+    var numeriUtente = askNumbers();
+    document.getElementById("text").innerHTML = "Il tuo punteggio è: " + numeriUtente.length + "<br>I numeri minati sono: " + numeri + "<br>Hai colpito il numero: " + numUtente + "<br>I numeri da te inseriti sono: " + numeriUtente;
+
+    /* popolazione array con numeri casuali non ripetuti da min a max */
+    function createArray(){
+        var array = [];
+        while (array.length < 16) {
+            var nRand = Math.floor(Math.random()*(max - min + 1) + 1);
+            if (!array.includes(nRand)) array.push(nRand);
         }
-        array.push(numUtente);
+        return array;
     }
-    return array;
-}
 
-document.getElementById("text").innerHTML = "Il tuo punteggio è: " + numeriUtente.length + "<br>I numeri minati sono: " + numeri + "<br>Hai colpito il numero: " + numUtente + "<br>I numeri da te inseriti sono: " + numeriUtente;
+    /* richiesta numeri a utente */
+    function askNumbers(){
+        var array = [];
+        while(array.length < max - 16 && !numeri.includes(numUtente)) {
+            var frase = "Inserisci un numero da 1 a " + max;
+            while (numUtente < min || numUtente > max || Number.isNaN(numUtente) || array.includes(numUtente)){
+                numUtente = parseInt(prompt(frase));
+                frase = "Numero non valido: inserisci un numero da 1 a " + max;
+            }
+            array.push(numUtente);
+        }
+        return array;
+    }
+
+    
+    
+
+    /* CASINOOOOO richiesta numeri a utente senza prompt*/
+    /* function askN(arrayPC) {
+        var array = [];
+        while(array.length < max - 16 && !arrayPC.includes(numUtente)) {
+            document.getElementById("addN").addEventListener("click", getN);
+            if (getN(array) != false) array.push(numUtente);
+        }
+        return array;
+    }
+
+    function getN(numeriUtente) {
+        var num = document.getElementById("num").value;
+        if (correctN(num, numeriUtente)) return num;
+        else return false;
+    }
+    
+    function correctN(num, arr){
+        return !(num < min || num > max || Number.isNaN(num) || arr.includes(num));
+        
+    } */
+}
