@@ -120,3 +120,7 @@ body {
     transform: translateY(-50%);
     right: 5%;
 }
+
+#clicca {
+    font-size: 30px;
+}
