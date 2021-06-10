@@ -4,60 +4,38 @@ Se il numero è presente nella lista dei numeri generati, la partita termina, al
 Al termine della partita il software deve comunicare il punteggio, cioè il numero di volte che l’utente ha inserito un numero consentito.
 BONUS: (da fare solo se funziona tutto il resto) all’inizio il software richiede anche una difficoltà all’utente che cambia il range di numeri casuali: con difficoltà 0 => tra 1 e 100 con difficoltà 1 => tra 1 e 80 con difficoltà 2 => tra 1 e 50 */
 
-/* scelta difficoltà */
 
-var min = 1
-var max;
-
-
-document.getElementById("zero").addEventListener("click", max100);
-document.getElementById("uno").addEventListener("click", max80);
-document.getElementById("due").addEventListener("click", max50);
+document.getElementById("zero").addEventListener("click", play);
+document.getElementById("uno").addEventListener("click", play);
+document.getElementById("due").addEventListener("click", play);
 
 
+function play(){
 
-function max100() {
-    max = 100;
-    hide();
-    game();
-}
-
-function max80() {
-    max = 80;
-    hide();
-    game();
-}
-
-function max50() {
-    max = 50;
-    hide();
-    game();
-}
-
-/* nasconde scelta difficoltà, mostra inserimento numero */
-function hide(){
-    document.getElementById("diff").className = "hidden";
-    document.getElementById("mains").className = "d-flex flex-column align-items-center justify-content-center text-center";
-    document.getElementById("campo").className = "inplace";
-    for (var i = min; i <= max; i++) {
-        document.getElementById("campo").innerHTML += "<div id=n" + i + " \" class=\"square d-flex align-items-center justify-content-center\"></div>";
-    }
-
-    
-}
-
-function game(){
-
+    var max = parseInt(this.getAttribute("data-max"));
+    var min = 1;
+    var elArray = 16;
     var numeri = createArray();
     var numeriUtente = [];
+    var lost = false;
+    
+
+    /* nascondere scelta difficoltà,*/
+    document.getElementById("diff").className = "hidden";
+
+    /* sezione input numero */
+    document.getElementById("mains").className = "d-flex flex-column align-items-center justify-content-center text-center";
 
     var frase = "oppure inserisci un numero da 1 a " + max;
     document.getElementById("text-num").innerHTML = frase;
-
     var pulsante = document.getElementById("addN");
-    pulsante.addEventListener("click", askNumbersWP);  
+    pulsante.addEventListener("click", askNumbersWP);
 
-    var lost = false;
+    /* creazione campo minato */
+    document.getElementById("campo").className = "inplace";
+    for (var i = min; i <= max; i++) {
+        document.getElementById("campo").innerHTML += "<div id=n" + i + " \" class=\"square d-flex align-items-center justify-content-center\"></div>";
+    } 
 
     for (var i = 1; i <= max; i++){
         document.getElementById("n" + i).addEventListener("click", check.bind(null, i));
@@ -66,7 +44,7 @@ function game(){
     /* popolazione array con numeri casuali non ripetuti da min a max */
     function createArray(){
         var array = [];
-        while (array.length < 16) {
+        while (array.length < elArray) {
             var nRand = Math.floor(Math.random()*(max - min + 1) + 1);
             if (!array.includes(nRand)) array.push(nRand);
         }
@@ -76,19 +54,20 @@ function game(){
     /* controllo numeri cliccati */
     function check(pressed){
         if (!lost) {
-        if (!numeri.includes(pressed)) {
-            pushNum(pressed);
-        } else {
-            lostGame(pressed);            
-        }
+            if (!numeri.includes(pressed)) {
+                pushNum(pressed);
+            } else {
+                lostGame(pressed);            
+            }
         }
     }
 
+    /* controllo input numeri */
     function askNumbersWP() {
         
         var num = parseInt(document.getElementById("numb").value);
 
-        if (numeriUtente.length < max - 16 && !numeri.includes(num)) {
+        if (numeriUtente.length < max - elArray && !numeri.includes(num)) {
             document.getElementById("text-num").innerHTML = frase;
             if (!(num < min || num > max || Number.isNaN(num) || numeriUtente.includes(num))) {
                 pushNum(num);
@@ -96,12 +75,13 @@ function game(){
                 document.getElementById("text-num").innerHTML = "Numero non valido o inserito in precedenza <br>inserisci un numero da 1 a " + max;
                 document.getElementById("numb").value = "";
             }
-        } else {
+        } else if (lost){
             lostGame(num);
         }
 
     } 
 
+    /* aggiunta numeri utente ad array  */
     function pushNum(num) {
         numeriUtente.push(num);
         document.getElementById("n" + num).className += " green";
@@ -110,6 +90,7 @@ function game(){
         document.getElementById("text").innerHTML = "Punteggio: " + numeriUtente.length;
     }
 
+    /* schermata game over */
     function lostGame(num) {
         lost = true;
         numeriUtente.push(num);
@@ -121,32 +102,19 @@ function game(){
         document.getElementById("clicca").innerHTML = "Game Over";
         document.getElementById("text-num").innerHTML = "Punteggio: " + (numeriUtente.length- 1);
         document.getElementById("addN").innerHTML = "Scopri mine";
+
         document.getElementById("addN").addEventListener("click", function() {
             for (var i = 0; i < numeri.length; i++){
                 document.getElementById("n" + numeri[i]).className += " red";
                 document.getElementById("n" + numeri[i]).innerHTML = numeri[i];
             }
+
             document.getElementById("addN").innerHTML = "Riprova";
             document.getElementById("addN").addEventListener("click", function(){
                 window.location.reload();
             });
         });
     }
-
-    /* richiesta numeri a utente con prompt*/
-    function askNumbers(){
-        var array = [];
-        while(array.length < max - 16 && !numeri.includes(numUtente)) {
-            var frase = "Inserisci un numero da 1 a " + max;
-            while (numUtente < min || numUtente > max || Number.isNaN(numUtente) || array.includes(numUtente)){
-                numUtente = parseInt(prompt(frase));
-                frase = "Numero non valido: inserisci un numero da 1 a " + max;
-            }
-            array.push(numUtente);
-        }
-        return array;
-    }  
-
  } 
     
 
